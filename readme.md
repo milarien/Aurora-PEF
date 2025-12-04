@@ -36,7 +36,7 @@ This repo provides:
 ## Quickstart
 
 ```bash
-git clone https://github.com/<your-username>/aurora-pef.git
+git clone https://github.com/milarien/aurora-pef.git
 cd aurora-pef
 python -m venv .venv
 source .venv/bin/activate  # or .venv\Scripts\activate on Windows
