@@ -43,58 +43,49 @@ source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 pip install -r requirements.txt
 python -m src.demo.cli_demo
 ```
-The demo will:
+## Architecture Overview
 
-    Load a small set of ambiguous sentences (e.g. “Emma told Lucy that her sister was arriving.”)
+For a full explanation, see the whitepaper in `whitepaper/`.
 
-    Build multiple interpretations in Aurora
+### PEF (`src/aurora/pef.py`)
+Provides a **persistent conceptual substrate** where entities exist outside of any single sentence.
 
-    Show which interpretations survive constraint pruning
-
-    Optionally compare this to a baseline LLM response
-
-Architecture Overview
-
-For a full explanation, see the whitepaper in whitepaper/.
-PEF (src/aurora/pef.py)
-
-Provides a persistent conceptual substrate where entities exist outside of any single sentence.
-Primitives (src/aurora/primitives.py)
-
-Implements the core operators (e.g. BRANCH, HOLD, PRUNE, BIND, TRACE, ANCHOR, LIFT, etc.)
+### Primitives (`src/aurora/primitives.py`)
+Implements the core operators (e.g. `BRANCH`, `HOLD`, `PRUNE`, `BIND`, `TRACE`, `ANCHOR`, `LIFT`, etc.)
 as functions or small classes over conceptual kernels.
-Interpreter (src/aurora/interpreter.py)
 
-Converts structured input (a parsed sentence with roles/domains/spans) into parallel interpretations,
+### Interpreter (`src/aurora/interpreter.py`)
+Converts structured input (a parsed sentence with roles/domains/spans) into **parallel interpretations**,  
 using primitives to maintain ambiguity.
-Verifier (src/aurora/verifier.py)
 
-Applies constraints to prune impossible interpretations and produce reasoning traces.
-Integrations (src/integrations/)
+### Verifier (`src/aurora/verifier.py`)
+Applies **constraints** to prune impossible interpretations and produce **reasoning traces**.
 
-Demonstrates the “sandwich” pattern:
+### Integrations (`src/integrations/`)
+Demonstrates the **“sandwich” pattern**:
 
-    Aurora Interpretation
+1. Aurora Interpretation  
+2. LLM Expression  
+3. Aurora Verification  
 
-    LLM Expression
+---
 
-    Aurora Verification
+## Status
 
-Status
-
-This repo is a reference and demonstration implementation, not a production system.
+This repo is a **reference and demonstration implementation**, not a production system.
 
 It is intended to:
 
-    Make the architecture concrete for researchers and engineers
+- Make the architecture concrete for researchers and engineers  
+- Provide a testbed for ambiguity and reasoning experiments  
+- Serve as the basis for deeper collaborations and licensing  
 
-    Provide a testbed for ambiguity and reasoning experiments
+---
 
-    Serve as the basis for deeper collaborations and licensing
+## Licensing & Contact
 
-Licensing & Contact
+> **NOTE:** Licensing terms are still being finalised and may differ from open-source defaults.
 
-    NOTE: Licensing terms are still being finalised and may differ from open-source defaults.
+**Name:** Margaret Stokes  
+**Email:** megstokesart@gmail.com
 
-Name: Margaret Stokes
-Email: megstokesart@gmail.com
