@@ -1,3 +1,11 @@
+<p align="left">
+  <img src="https://img.shields.io/badge/architecture-Aurora+PEF-blueviolet" alt="Aurora+PEF Architecture">
+  <img src="https://img.shields.io/badge/license-Custom%20Non--Commercial-important" alt="Custom License">
+  <img src="https://img.shields.io/badge/language-Python%203.10+-yellow" alt="Python Version">
+  <img src="https://img.shields.io/badge/status-Research%20Prototype-lightgrey" alt="Status">
+</p>
+
+
 # Aurora + PEF — Meaning-First Reasoning Substrate
 
 Aurora + PEF is a **non-token, structure-first reasoning architecture** designed to run
