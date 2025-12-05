@@ -99,5 +99,5 @@ For research or collaboration enquiries, please reach out via GitHub.
 
 
 **Name:** Margaret Stokes  
-**Email:** megstokesart@gmail.com
+
 
