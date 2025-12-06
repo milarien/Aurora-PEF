@@ -15,7 +15,7 @@
 
 ## Overview
 
-Aurora + PEF is a **meaning-first reasoning architecture** developed in response to reproducible, cross-model failures observed in modern transformer systems, including:
+Aurora + PEF is a **meaning-first reasoning architecture** developed in response to reproducible, cross-model failures observed in transformer systems, including:
 
 - **premature ambiguity collapse**  
 - **invented grammatical or causal rules**  
@@ -25,13 +25,13 @@ Aurora + PEF is a **meaning-first reasoning architecture** developed in response
 - **loss of persistent conceptual identity**
 
 These behaviours were observed across Grok, GPT-4, Gemini, and Claude in controlled tests.  
-They arise **not from training gaps**, but from the representational limits of attention-based sequence modelling.
+They arise **not from training gaps**, but from structural limits of attention-based sequence modelling.
 
 Aurora separates the components that transformers conflate:
 
-1. **Interpretation** — structured meaning formation (Aurora)  
+1. **Interpretation** — structured meaning formation  
 2. **Expression** — linguistic realization (LLM)  
-3. **Verification** — constraint-based audit for fidelity (Aurora)
+3. **Verification** — constraint-based audit for fidelity  
 
 Transformers remain linguistic engines.  
 **Aurora governs meaning.**  
@@ -42,54 +42,43 @@ Transformers remain linguistic engines.
 ## Key Documents
 
 📄 **Executive Summary**  
-`docs/Executive-Summary.md`
+[`docs/Executive-Summary.md`](docs/Executive-Summary.md)
 
 📄 **Research Abstract**  
-`docs/Research-Abstract.md`
+[`docs/Abstract.md`](docs/Abstract.md)
+
+📄 **Full Architecture Paper (v1.1, 76 pages)**  
+[`whitepaper/Aurora PEF Final with Appendices.pdf`](whitepaper/Aurora%20PEF%20Final%20with%20Appendices.pdf)
+
+These three documents form the core of the research release.
 
 ---
 
 ## Repository Contents
 
-### **1. Aurora + PEF Architecture (Whitepaper v1.1)**  
-Comprehensive 76-page document including:
+### **1. Aurora + PEF Architecture (Whitepaper v1.1)**
+A complete description of:
 
-- empirical tests across four transformer families  
-- structural diagnosis of failure modes  
-- full Aurora primitive system (WE, THEN, WHILE, UNTIL, BECAUSE, etc.)  
-- Persistent Existence Frame (PEF): a non-temporal substrate  
-- computational feasibility analysis  
-- hybrid integration pathway (Interpret → LLM → Verify)
+- empirical ambiguity tests across multiple LLMs  
+- structural diagnosis of transformer failure modes  
+- Aurora’s primitive operator system (WE, THEN, WHILE, UNTIL, BECAUSE, etc.)  
+- Persistent Existence Frame (PEF): a non-temporal interpretive substrate  
+- computational feasibility and scaling behaviour  
+- hybrid integration architecture (Interpret → LLM → Verify)
 
-### **2. Appendices A–D**  
-Raw, reproducible evidence:
+### **2. Appendices A–D**
+Included in the whitepaper PDF:
 
-- Grok ambiguity suite (6 tests)  
+- Grok ambiguity test suite  
 - GPT-4 & Gemini replication  
-- Claude hallucination cascade failure  
+- Claude cascade hallucination failure  
 - canonical primitive operator set  
 
-### **3. Diagrams**  
-Conceptual architecture figures and interpretive flow maps.
+### **3. Diagrams**
+High-level conceptual architecture figures (embedded in the PDF).
 
-> **Note:** This repository provides documentation and evidence.  
-> It does *not* include a full production implementation.
-
----
-
-## Whitepaper Access
-
-All formal materials are located in:
-
-
-Contents include:
-
-- conceptual foundations  
-- empirical demonstrations  
-- Aurora interpretive model  
-- PEF reconstructive/state framework  
-- integration with transformers  
-- implications for safety, reasoning, and multi-agent stability  
+> **Note:** This repository provides documentation and empirical evidence.  
+> It does *not* include a production implementation of Aurora or PEF.
 
 ---
 
@@ -97,10 +86,10 @@ Contents include:
 
 This repository is intended to:
 
-- support **research evaluation and critique**, especially in interpretability and alignment  
-- provide a **reproducible empirical dataset** demonstrating transformer limitations  
-- document a **coherent alternative conceptual substrate**  
-- invite **collaboration, review, and technical discussion**
+- support **technical review** by interpretability, safety, and architecture researchers  
+- provide a **reproducible empirical dataset** illustrating transformer limitations  
+- document a **coherent alternative substrate** for reasoning  
+- enable discussion around collaboration and further development pathways  
 
 ---
 
@@ -109,11 +98,11 @@ This repository is intended to:
 Aurora + PEF is an active research architecture.  
 This repository contains:
 
-- the conceptual specification  
+- conceptual specifications  
 - empirical evidence  
-- supporting documents for technical review  
+- documentation for expert evaluation  
 
-Future development will proceed through structured collaboration.
+Future development will proceed through targeted research collaboration, not open-source contribution.
 
 ---
 
@@ -124,3 +113,4 @@ For research dialogue or collaboration enquiries:
 via GitHub or the email listed in the whitepaper
 
 ---
+
