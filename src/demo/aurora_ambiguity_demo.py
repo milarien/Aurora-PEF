@@ -1,3 +1,15 @@
+"""
+Minimal Aurora-style ambiguity substrate.
+
+Demonstrates:
+- explicit conceptual state (Emma/Lucy sister references)
+- parallel interpretations represented as data structures
+- context-governed resolution vs ambiguity preservation
+
+Not a transformer, not an NLP heuristic.
+A toy structural engine reflecting Aurora’s reasoning pattern.
+"""
+
 from dataclasses import dataclass, asdict
 import json
 
@@ -167,5 +179,6 @@ if __name__ == "__main__":
 
     with open("results.json", "w", encoding="ascii") as f:
         f.write(output)
+
 
 
