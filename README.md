@@ -41,12 +41,17 @@ It is the **diagnostic surface** exposing the deeper absence of structured reaso
 
 ---
 ### Quick Navigation  
-**Summary:** docs/Executive-Summary.md ·  
-**Whitepaper v1.1:** Whitepaper/Aurora%20PEF%20Final%20with%20Appendices%20v1.1.pdf ·  
-**Demo:** src/demo/README.md ·  
-**Primitives:** docs/primitives.md ·  
-**PEF:** docs/pef.md ·  
-**Review Notes:** docs/FOR_REVIEWERS.md
+<p align="right">
+  <sub>
+    <a href="docs/Executive-Summary.md">Summary</a> ·
+    <a href="Whitepaper/Aurora%20PEF%20Final%20with%20Appendices%20v1.1.pdf">Whitepaper</a> ·
+    <a href="src/demo/README.md">Demo</a> ·
+    <a href="docs/primitives.md">Primitives</a> ·
+    <a href="docs/pef.md">PEF</a> ·
+    <a href="docs/FOR_REVIEWERS.md">Review Notes</a>
+  </sub>
+</p>
+
 ---
 
 # 📄 Core Documents
