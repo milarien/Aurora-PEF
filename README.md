@@ -40,15 +40,13 @@ Ambiguity is not the “problem.”
 It is the **diagnostic surface** exposing the deeper absence of structured reasoning.
 
 ---
-
 ### Quick Navigation  
-**Summary:** docs/Executive-Summary.md 
-**Whitepaper v1.1:** Whitepaper/Aurora%20PEF%20Final%20with%20Appendices%20v1.1.pdf 
-**Demo:** src/demo/README.md 
-**Primitives:** docs/primitives.md 
-**PEF:** docs/pef.md
+**Summary:** docs/Executive-Summary.md ·  
+**Whitepaper v1.1:** Whitepaper/Aurora%20PEF%20Final%20with%20Appendices%20v1.1.pdf ·  
+**Demo:** src/demo/README.md ·  
+**Primitives:** docs/primitives.md ·  
+**PEF:** docs/pef.md ·  
 **Review Notes:** docs/FOR_REVIEWERS.md
-
 ---
 
 # 📄 Core Documents
