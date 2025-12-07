@@ -36,12 +36,10 @@ Aurora + PEF takes a different approach:
 - **Transformers** become expression-only layers.  
 - **Aurora Verification** enforces constraints, collapse conditions, and coherence.  
 
-Ambiguity is not the “problem.”  
-It is the **diagnostic surface** exposing the deeper absence of structured reasoning.
+Ambiguity is not the “problem.”
+It is the diagnostic surface exposing the deeper absence of structured reasoning.
 
----
-### Quick Navigation  
-<p align="right">
+<p align="center">
   <sub>
     <a href="docs/Executive-Summary.md">Summary</a> ·
     <a href="Whitepaper/Aurora%20PEF%20Final%20with%20Appendices%20v1.1.pdf">Whitepaper</a> ·
@@ -51,8 +49,6 @@ It is the **diagnostic surface** exposing the deeper absence of structured reaso
     <a href="docs/FOR_REVIEWERS.md">Review Notes</a>
   </sub>
 </p>
-
----
 
 # 📄 Core Documents
 
