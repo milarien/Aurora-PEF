@@ -1,4 +1,5 @@
 <p align="center"> <img src="docs/images/aurora_pef_logo.png" alt="Aurora + PEF Logo" width="600"> </p>
+---
 
 # Aurora + PEF Reasoning Framework  
 ### A non-temporal substrate for explicit compositional reasoning
