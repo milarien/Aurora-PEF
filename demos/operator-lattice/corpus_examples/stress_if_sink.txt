@@ -1,0 +1,10 @@
+We consider how the system behaves under normal conditions.
+Then we introduce a slight perturbation to the inputs.
+If the perturbation propagates, we track its effects through each component.
+If the effects cancel out, we record the system as stable.
+But if amplification appears at any point, we mark the system as fragile.
+Then we repeat the process with a stronger perturbation.
+If the system fails under the stronger test, we downgrade its reliability.
+But if it survives both tests, we classify it as robust.
+Then we design follow-up experiments to probe borderline cases.
+If borderline behaviour appears, we refine the model before deployment.
