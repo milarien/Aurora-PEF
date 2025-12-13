@@ -24,3 +24,21 @@ What it does:
 cd demo
 python aurora_ambiguity_demo.py
 ```
+## Interactive Demo: Clarification-Gated Reasoning (CLI)
+
+This repository also includes an interactive Aurora-style CLI demo that
+demonstrates **hard refusal under unresolved linguistic ambiguity**.
+
+- File: demos/cli/aurora_cli_demo.py
+
+What it does:
+
+- Maintains an explicit reasoning state over discourse entities and facts
+- Detects referential ambiguity at the point it is encountered
+- Enforces a hard STOP when ambiguity cannot be resolved from prerequisites
+- Asks a closed-form clarification question about the utterance
+- Accepts only constrained clarification answers
+- Resumes reasoning deterministically after clarification
+- Terminates after producing a resolved interpretation (not a world assertion)
+
+This demo exists to show that **refusal is correct reasoning**, not failure.
