@@ -24,6 +24,9 @@ If you're new to Aurora, begin with:
 These provide the conceptual foundation of the architecture and explain why transformers consistently fail at structured reasoning.
 
 ---
+▶️ Aurora Demo
+A minimal, auditable demonstration of constraint-governed reasoning and explicit ambiguity handling.
+👉 demos/aurora_cli_demo.py
 
 ## 📘 Overview
 
