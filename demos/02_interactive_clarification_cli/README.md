@@ -1,59 +1,100 @@
-# Aurora CLI Demo — Explicit Ambiguity Handling
+# Demos
 
-This demo illustrates a core Aurora invariant:
+## Run the Reference Demo
 
-> When ambiguity is linguistic or referential, the system must refuse to proceed
-> and ask a clarification question about the utterance itself.
-
-The refusal is **correct reasoning**, not failure.
-
----
-
-## Reasoning Contract
-
-This demo enforces the following rules:
-
-- No facts are invented.
-- Constraints are applied only when their prerequisites are satisfied.
-- Ambiguity triggers a hard STOP if collapse is not guaranteed.
-- Clarification questions target the utterance, not the world.
-- Only constrained clarification answers are accepted.
-- All outputs after clarification are **resolved interpretations**, not assertions
-  about the world.
-
----
-
-## Running the Demo
-
-```bash
-python aurora_cli_demo.py
 ```
-## Example Interaction
-> Emma has a sister
-> Lucy has a sister
-> Her sister is nice.
+python demos/aurora_cli_demo.py
+```
+
+All other demo files in this directory are **historical artifacts** retained for provenance only. They do **not** represent current behavior.
+
+---
+
+## What This Is (and Is Not)
+
+This demo is a **constraint‑governed reasoning** demonstrator.
+
+It is **not**:
+
+* a language model
+* a chatbot
+* a natural language processing system
+* a claim about scalability or performance
+
+Language is used only as a **human‑readable input notation** for candidate propositions. The demo does not model grammar, discourse, pragmatics, or conversational skill.
+
+Evaluate it as a reasoning control system: **rules that govern when a conclusion is permitted**, and when the system must stop.
+
+---
+
+## The Contract This Demo Enforces
+
+The demo enforces the following invariants:
+
+1. **Ambiguity is detected, not ignored**
+   If more than one coherent interpretation is available, execution halts.
+
+2. **Clarification is required to proceed**
+   The system asks a targeted question about the utterance itself, then continues only after an explicit binding is provided.
+
+3. **State updates require binding**
+   Attributes are committed only once the relevant referent is unambiguously resolved.
+
+4. **Committed structure enables later resolution**
+   Once bindings exist, later ambiguous utterances may collapse deterministically without further clarification.
+
+These rules are intentionally small and inspectable.
+
+---
+
+## Example
+
+```
+> Sally had a dog.
+> Jenny had a dog.
+> Her dog was louder.
 
 STOP: CLARIFICATION REQUIRED
-I cannot proceed without clarification.
-Q: Is "her sister" referring to Emma’s sister or Lucy’s sister?
+Q: Is "her dog" referring to Jenny's dog or Sally's dog?
 
-clarify> Luc
-(Not accepted: answer_not_in_allowed_set. Please answer with one candidate name.)
+clarify> Sally
 
-clarify> Lucy
+POST-COMMIT: Sally.dog has_attr comp_er:loud
 
-RESOLVED INTERPRETATION
-Lucy’s sister is nice.
-Note: This output is a resolved interpretation of the utterance, not a world assertion.
-END (press Enter to exit)
+> Her dog was louder.
 
-## Non-Goals
+RESOLVED BY CONTEXT
+Sally's dog was louder.
+```
 
-This demo does NOT:
+The second occurrence resolves without clarification because the necessary binding was previously committed.
 
-- guess referents
-- infer world facts
-- continue execution under ambiguity
-- optimise, generalise, or learn
+---
 
-Its purpose is to make ambiguity handling explicit, deterministic, and auditable.
+## On “Hard‑Coded”
+
+This system does **not** encode answers.
+It encodes the **conditions under which an answer is justified**.
+
+Hard‑coded systems select outcomes.
+This system constrains admissible state transitions.
+
+---
+
+## Why This Matters
+
+Most deployed language systems are optimized for **fluent continuation**. That pressure favors *guessing* over *withholding* when information is missing, and it masks uncertainty with confident prose.
+
+This demo isolates a specific failure mode: **unauthorized certainty**.
+
+It demonstrates a minimal alternative:
+
+> Progress is conditional on epistemic legitimacy, not on fluency.
+
+The visible guarantee is the point:
+
+* no invented facts
+* no commitments without binding
+* no resolution without justification
+
+That control surface is foundational anywhere trust, auditability, or responsibility matter.

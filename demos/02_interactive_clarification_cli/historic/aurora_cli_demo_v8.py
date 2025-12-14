@@ -1,12 +1,11 @@
-"""
-Aurora CLI Demo — Ambiguity-Aware Reasoning
+# ⚠️ HISTORICAL DEMO
+# This file is retained for provenance only.
+# It does NOT represent current Aurora behavior.
+# Run demo/aurora_cli_demo.py instead.
 
-This demo intentionally refuses to resolve ambiguous utterances
-unless the information required to do so has been explicitly provided
-or previously committed.
-
-It is a demonstrator of reasoning constraints, not a language model.
-"""
+raise RuntimeError(
+    "This demo is historical. Run demo/aurora_cli_demo.py instead."
+)
 #!/usr/bin/env python3
 """
 Aurora CLI Demo (Minimal Invariants) — v8
@@ -405,27 +404,17 @@ def choose_by_constraints(state: State, amb: Ambiguity) -> Tuple[Optional[str], 
 def commit_after_binding(state: State, chosen: str, amb: Ambiguity) -> List[str]:
     """
     Commit predicate attr after binding; optionally commit NP adjective too.
-    Emit audit output ONLY if something new was added.
+    Returns audit strings.
     """
     audits: List[str] = []
 
     if amb.pred_attr:
-        before = len(get_attrs(state, chosen, amb.head))
         add_attr(state, chosen, amb.head, amb.pred_attr)
-        after = len(get_attrs(state, chosen, amb.head))
-        if after > before:
-            audits.append(
-                f"{chosen}.{amb.head} has_attr {amb.pred_attr.as_str()} (from predicate)"
-            )
+        audits.append(f"{chosen}.{amb.head} has_attr {amb.pred_attr.as_str()} (from predicate)")
 
     if COMMIT_NP_ADJ_AFTER_BINDING and amb.np_attr:
-        before = len(get_attrs(state, chosen, amb.head))
         add_attr(state, chosen, amb.head, amb.np_attr)
-        after = len(get_attrs(state, chosen, amb.head))
-        if after > before:
-            audits.append(
-                f"{chosen}.{amb.head} has_attr {amb.np_attr.as_str()} (from noun phrase)"
-            )
+        audits.append(f"{chosen}.{amb.head} has_attr {amb.np_attr.as_str()} (from noun phrase)")
 
     return audits
 
@@ -671,28 +660,28 @@ def main() -> None:
             print("RESOLVED INTERPRETATION")
             print(resolved)
             print("Note: This output is a resolved interpretation of the utterance, not a world assertion.")
-
             for a in trace["resume"].get("post_commit", []):
                 print("POST-COMMIT:", a)
-
+            print("END (press Enter to exit)")
             print("-" * 72)
-            continue
+            input()
+            return
 
-        # terminal success on deterministic collapse (keep running)
+        # terminal-ish success on deterministic collapse (optional: keep running; demo exits here)
         if trace.get("resolved_utterance") and decision.get("status") == "RESOLVED_BY_CONTEXT":
             print("\n" + "-" * 72)
             print("RESOLVED BY CONTEXT")
             print(trace["resolved_utterance"])
-
             for a in decision.get("post_commit", []):
                 print("POST-COMMIT:", a)
-
+            print("END (press Enter to exit)")
             print("-" * 72)
-            continue
+            input()
+            return
 
+        if SHOW_JSON:
+            print(json.dumps(trace, indent=2))
 
-if SHOW_JSON:
-    print(json.dumps(trace, indent=2))
 
 if __name__ == "__main__":
     main()
