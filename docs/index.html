@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aurora-PEF — Admissibility Gate Demo</title>
+  <meta name="description" content="A minimal static demo showing why LLM outputs require an admissibility/refusal layer: no premature commitment, no scope extension, and no unauthorised continuation." />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #111827;
+      --panel2: #0f172a;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+      --ok: #34d399;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+      --border: rgba(255,255,255,0.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 0%, #0f1a2d 0%, var(--bg) 55%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 32px 18px 60px; }
+    header {
+      padding: 18px 18px 22px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(17,24,39,0.92) 0%, rgba(15,23,42,0.92) 100%);
+      border-radius: 16px;
+    }
+    h1 { margin: 0 0 6px; font-size: 26px; letter-spacing: 0.2px; }
+    .sub { color: var(--muted); margin: 0; }
+    .callout {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.55);
+      color: var(--text);
+    }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 18px; }
+    @media (min-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .card {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(17,24,39,0.78);
+    }
+    h2 { margin: 0 0 8px; font-size: 18px; }
+    h3 { margin: 14px 0 8px; font-size: 14px; color: var(--muted); letter-spacing: 0.6px; text-transform: uppercase; }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.55);
+      color: var(--muted);
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    pre {
+      margin: 0;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.75);
+      overflow: auto;
+      font-size: 13px;
+      color: #e5e7eb;
+      white-space: pre-wrap;
+    }
+    .status {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.55);
+    }
+    .status strong { font-weight: 700; }
+    .ok strong { color: var(--ok); }
+    .warn strong { color: var(--warn); }
+    .bad strong { color: var(--bad); }
+    ul { margin: 10px 0 0; padding-left: 18px; color: var(--muted); }
+    .links { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .pill {
+      display: inline-block;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(2,6,23,0.55);
+      color: var(--text);
+    }
+    footer {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 14px 6px 0;
+    }
+    .small { font-size: 13px; color: var(--muted); }
+    .hr { height: 1px; background: var(--border); margin: 14px 0; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Admissibility Gate Demo <span class="badge">static / minimal</span></h1>
+      <p class="sub">
+        A small demonstration: major LLMs often appear reliable only when a skilled human constrains them.
+        Remove that governor, and systems commit, extend, or over-speak.
+      </p>
+
+      <div class="callout">
+        <strong>Claim:</strong> This is not a new model. It is a <em>post-generation constraint layer</em> that decides when an answer is allowed to exist.
+      </div>
+
+      <div class="links">
+        <a class="pill" href="./Executive-Summary.md">Executive Summary</a>
+        <a class="pill" href="./Research-Abstract.md">Research Abstract</a>
+        <a class="pill" href="./FOR_REVIEWERS.md">For Reviewers</a>
+        <a class="pill" href="./Aurora-Architecture-Overview.md">Architecture Overview</a>
+        <a class="pill" href="./primitives.md">Primitives</a>
+        <a class="pill" href="./pef.md">PEF</a>
+      </div>
+    </header>
+
+    <div class="grid">
+
+      <!-- CASE 1 -->
+      <section class="card">
+        <h2>Case 1 — Illegitimate Commitment <span class="badge">ambiguity collapse</span></h2>
+
+        <h3>Prompt</h3>
+        <pre>Emma’s sister and Lucy’s sister both live overseas.
+Emma told Lucy that her sister was arriving.
+Whose sister is arriving?</pre>
+
+        <h3>Typical LLM failure</h3>
+        <pre>“Emma’s sister is arriving.”</pre>
+
+        <div class="status warn">
+          <strong>Gate verdict: AMBIGUOUS_UNRESOLVED</strong><br />
+          <span class="small">Multiple interpretations remain admissible; none are forced by context.</span>
+        </div>
+
+        <h3>Gate trace</h3>
+        <pre>{
+  "status": "AMBIGUOUS_UNRESOLVED",
+  "reason": "Multiple interpretations remain admissible",
+  "interpretations": ["Emma's sister", "Lucy's sister"],
+  "forcing_constraint": null
+}</pre>
+      </section>
+
+      <!-- CASE 2 -->
+      <section class="card">
+        <h2>Case 2 — Illegitimate Scope Extension <span class="badge">premise injection</span></h2>
+
+        <h3>Prompt</h3>
+        <pre>Policy section 4 applies to contractors operating offsite.
+An employee violated policy section 4.
+Was this a breach?</pre>
+
+        <h3>Admissible narrow conclusion</h3>
+        <pre>“No. Section 4 applies to contractors; the actor is an employee.”</pre>
+
+        <div class="status ok">
+          <strong>Gate verdict: ADMISSIBLE</strong><br />
+          <span class="small">Conclusion follows strictly from stated scope; no additional premises introduced.</span>
+        </div>
+
+        <h3>What the gate blocks</h3>
+        <pre>“However, there is probably another policy section / code of conduct…”</pre>
+
+        <div class="status bad">
+          <strong>Gate verdict (for that continuation): INADMISSIBLE_UNSUPPORTED</strong><br />
+          <span class="small">Speculation about other rules is not supported by the provided context.</span>
+        </div>
+      </section>
+
+      <!-- CASE 3 -->
+      <section class="card">
+        <h2>Case 3 — Illegitimate Continuation <span class="badge">should have stopped</span></h2>
+
+        <h3>Prompt</h3>
+        <pre>(same as Case 2)</pre>
+
+        <h3>Failure pattern</h3>
+        <pre>Correct answer → then extra hypotheticals, “in reality…”, “it might differ if…”, etc.</pre>
+
+        <div class="status bad">
+          <strong>Gate verdict: TRUNCATE_AFTER_ADMISSIBLE</strong><br />
+          <span class="small">Once an admissible conclusion is reached, post-conclusion speculation is blocked unless explicitly requested.</span>
+        </div>
+
+        <h3>Gate trace</h3>
+        <pre>{
+  "primary_conclusion": { "status": "ADMISSIBLE" },
+  "continuation": {
+    "status": "INADMISSIBLE_UNSUPPORTED",
+    "reason": "Post-conclusion speculation not grounded in context"
+  },
+  "enforcement": "TRUNCATE_OUTPUT"
+}</pre>
+      </section>
+
+      <!-- INVARIANTS -->
+      <section class="card">
+        <h2>Invariants enforced <span class="badge">the point</span></h2>
+        <ul>
+          <li><strong>No premature commitment:</strong> do not select an interpretation when multiple remain admissible and none are forced.</li>
+          <li><strong>No scope extension:</strong> do not apply a rule outside its explicitly stated scope.</li>
+          <li><strong>No unauthorised continuation:</strong> once a conclusion is admissible and complete, stop; do not add speculative premises.</li>
+        </ul>
+
+        <div class="hr"></div>
+        <p class="small">
+          This page is intentionally static. It exists to show the control surface: <em>admissibility</em> as a first-class outcome.
+        </p>
+      </section>
+
+    </div>
+
+    <footer>
+      <div class="small">
+        Tip: this landing page can link to screenshots in <code>docs/images/</code> (or your existing demo folders) if you want side-by-side evidence.
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
