@@ -214,30 +214,41 @@ Screenshots captured across multiple LLMs showing scope handling and overreach.
         </div>
       </section>
 
-      <!-- CASE 3 -->
+           <!-- CASE 3 -->
       <section class="card">
-        <h2>Case 3 — Illegitimate Continuation <span class="badge">should have stopped</span></h2>
+        <h2>Case 3 — Termination Invariant <span class="badge">control condition</span></h2>
 
-        <h3>Prompt</h3>
-        <pre>(same as Case 2)</pre>
+        <h3>What this enforces</h3>
+        <pre>Once an admissible conclusion is reached (or once a refusal is required), the system must stop.
+No additional claims, hypotheticals, “in practice…”, or policy/speculation may be introduced unless explicitly requested.</pre>
 
-        <h3>Failure pattern</h3>
-        <pre>Correct answer → then extra hypotheticals, “in reality…”, “it might differ if…”, etc.</pre>
+        <h3>Evidence (already shown above)</h3>
+        <p class="small">
+          This failure mode appears in both Case 1 and Case 2:
+        </p>
+        <ul>
+          <li><strong>Case 1:</strong> models commit to one binding, then continue reasoning as if that commitment were licensed.</li>
+          <li><strong>Case 2:</strong> models give a correct narrow answer, then keep talking and inject unsupported premises (“should have shut up”).</li>
+        </ul>
 
         <div class="status bad">
-          <strong>Gate verdict: TRUNCATE_AFTER_ADMISSIBLE</strong><br />
-          <span class="small">Once an admissible conclusion is reached, post-conclusion speculation is blocked unless explicitly requested.</span>
+          <strong>Gate verdict: TRUNCATE_AFTER_ENTITLEMENT</strong><br />
+          <span class="small">Stop generation at the boundary of entitlement: after admissible answer, or at refusal/clarification.</span>
         </div>
 
         <h3>Gate trace</h3>
         <pre>{
-  "primary_conclusion": { "status": "ADMISSIBLE" },
-  "continuation": {
-    "status": "INADMISSIBLE_UNSUPPORTED",
-    "reason": "Post-conclusion speculation not grounded in context"
-  },
+  "termination_invariant": "ENFORCE",
+  "rule": "Stop at entitlement boundary",
+  "when": [
+    "primary_conclusion is ADMISSIBLE and answers the question",
+    "status is AMBIGUOUS_UNRESOLVED (refusal/clarification required)",
+    "status is INADMISSIBLE_UNSUPPORTED (block unsupported continuation)"
+  ],
   "enforcement": "TRUNCATE_OUTPUT"
 }</pre>
+      </section>
+
       </section>
 
       <!-- INVARIANTS -->
