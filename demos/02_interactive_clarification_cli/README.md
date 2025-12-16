@@ -1,12 +1,9 @@
 # Demos
 
-## Run the Reference Demo
+Note on executability:
+Earlier versions of this repository included runnable demonstration code. These have been intentionally removed. The current repository contains non-operational reference traces designed to illustrate the reasoning contract and its guarantees without distributing a general-purpose executable system.
 
-```
-python demos/aurora_cli_demo.py
-```
-
-All other demo files in this directory are **historical artifacts** retained for provenance only. They do **not** represent current behavior.
+The included trace player allows readers to inspect refusal, clarification, and commitment behavior step-by-step, without relying on executable heuristics.
 
 ---
 
