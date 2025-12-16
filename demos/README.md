@@ -184,5 +184,19 @@ Files in this directory are retained for provenance only.
 They do not represent current Aurora behavior and should not be used for evaluation.
 
 ---
+
+### How to Use This Repo
+
+* **Want intuition?** Run the interactive clarification demo.
+* **Want proof?** Inspect the kernel JSON output.
+* **Want comparison?** Examine the LLM constraint governance demo.
+* **Want structure?** Read the operator lattice demonstrator.
+
 Each demo is intentionally small so its guarantees remain visible.
+
+
+
+Aurora + PEF provide an explicit substrate for epistemic legitimacy: identity persistence, constraint-governed commitment, licensed collapse, and refusal as a first-class outcome — whether or not ambiguity is present.
+
+These examples contain no ambiguity. Failures shown here arise from the absence of explicit identity, constraint-governed commitment, and licensed collapse.
 
