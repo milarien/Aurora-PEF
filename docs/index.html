@@ -1,17 +1,533 @@
-<!DOCTYPE html []>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="author" content="MarkdownViewer++" />
-    <title>new 14</title>
-    <style type="text/css">
-            
-/* Avoid page breaks inside the most common attributes, especially for exports (i.e. PDF) */
-td, h1, h2, h3, h4, h5, p, ul, ol, li {
-    page-break-inside: avoid; 
-}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aurora-PEF — Admissibility Gate Demo</title>
+  <meta name="description" content="A minimal static demo showing why LLM outputs require an admissibility/refusal layer: no premature commitment, no scope extension, and no unauthorised continuation." />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#111827;
+      --panel2:#0f172a;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --accent:#60a5fa;
+      --ok:#34d399;
+      --warn:#fbbf24;
+      --bad:#fb7185;
+      --border:rgba(255,255,255,0.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      background:radial-gradient(1200px 800px at 20% 0%, #0f1a2d 0%, var(--bg) 55%);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1080px;margin:0 auto;padding:34px 18px 70px}
 
-        </style>
-  </head>
-  <body></body>
+    header{
+      padding:20px 20px 22px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(17,24,39,0.92) 0%, rgba(15,23,42,0.92) 100%);
+      border-radius:18px;
+    }
+
+    .kicker{
+      font-size:12px;
+      letter-spacing:0.10em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin:0 0 10px;
+    }
+    h1{margin:0 0 10px;font-size:30px;line-height:1.2;letter-spacing:0.2px}
+    .sub{margin:0;color:var(--muted);max-width:80ch}
+
+    .heroRow{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (min-width: 960px){
+      .heroRow{grid-template-columns:1.18fr 0.82fr}
+    }
+
+    .callout,.cta{
+      padding:14px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(2,6,23,0.55);
+    }
+    .cta{background:rgba(2,6,23,0.35)}
+    .callout strong,.cta strong{font-weight:800}
+
+    .links{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .pill{
+      display:inline-block;
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(2,6,23,0.45);
+      color:var(--text);
+      white-space:nowrap;
+    }
+
+    /* Reader map */
+    .map{
+      margin-top:14px;
+      padding:14px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:rgba(2,6,23,0.38);
+    }
+    .mapTitle{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin:0 0 10px;
+      font-size:14px;
+      color:var(--text);
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;background:var(--accent);
+      box-shadow:0 0 0 3px rgba(96,165,250,0.20);
+      flex:0 0 auto;
+    }
+    .pipe{
+      margin:10px 0 0;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(2,6,23,0.55);
+      overflow:auto;
+      font-size:13px;
+      white-space:pre;
+      line-height:1.55;
+    }
+    .mapGrid{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    @media (min-width: 960px){
+      .mapGrid{grid-template-columns:1fr 1fr}
+    }
+    .mapItem{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(2,6,23,0.45);
+    }
+    .tag{
+      display:inline-block;
+      font-size:12px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color:var(--muted);
+      background:rgba(2,6,23,0.55);
+      margin-left:8px;
+      vertical-align:middle;
+    }
+    .mapItem p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .mapItem b{font-weight:800}
+
+    .sectionTitle{
+      margin:24px 0 10px;
+      font-size:13px;
+      color:var(--muted);
+      letter-spacing:0.10em;
+      text-transform:uppercase;
+    }
+
+    .grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:12px}
+    @media (min-width: 920px){.grid{grid-template-columns:1fr 1fr}}
+    .card{
+      padding:18px;
+      border-radius:18px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(17,24,39,0.82), rgba(15,23,42,0.78));
+    }
+    h2{margin:0 0 8px;font-size:18px}
+    h3{
+      margin:14px 0 8px;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:0.10em;
+      text-transform:uppercase;
+    }
+    .badge{
+      display:inline-block;
+      font-size:12px;
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(2,6,23,0.50);
+      color:var(--muted);
+      margin-left:8px;
+      vertical-align:middle;
+      white-space:nowrap;
+    }
+
+    pre{
+      margin:0;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(2,6,23,0.72);
+      overflow-x:auto;
+      font-size:13px;
+      color:#e5e7eb;
+      white-space:pre;
+      line-height:1.55;
+    }
+
+    .status{
+      margin-top:12px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(2,6,23,0.48);
+    }
+    .status strong{font-weight:900}
+    .ok strong{color:var(--ok)}
+    .warn strong{color:var(--warn)}
+    .bad strong{color:var(--bad)}
+    .small{font-size:13px;color:var(--muted);margin:8px 0 0}
+    ul{margin:10px 0 0;padding-left:18px;color:var(--muted)}
+    li{margin:6px 0}
+
+    .hr{height:1px;background:var(--border);margin:14px 0}
+
+    details summary{
+      cursor:pointer;
+      color:var(--muted);
+      font-size:13px;
+      margin:10px 0 0;
+      user-select:none;
+    }
+    details[open] summary{margin-bottom:10px}
+
+    .evidence{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (min-width: 920px){.evidence{grid-template-columns:1fr 1fr}}
+
+    .evidence a{
+      display:block;
+      border-radius:12px;
+      border:1px solid var(--border);
+      overflow:hidden;
+      background:rgba(2,6,23,0.38);
+    }
+    .evidence img{display:block;width:100%;height:auto}
+    .caption{
+      padding:8px 10px;
+      font-size:12px;
+      color:var(--muted);
+      border-top:1px solid var(--border);
+    }
+
+    footer{
+      margin-top:26px;
+      color:var(--muted);
+      font-size:13px;
+      padding:12px 6px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <p class="kicker">Static demo · post-generation governance</p>
+
+      <h1>Admissibility Gate Demo <span class="badge">output entitlement control</span></h1>
+
+      <p class="sub">
+        Modern LLMs don’t mainly fail because they “don’t know facts.”
+        They fail because they <em>don’t know when they’re entitled to speak</em> —
+        so they commit, extend scope, and keep talking past what was licensed by the input.
+      </p>
+
+      <div class="heroRow">
+        <div class="callout">
+          <strong>Thesis:</strong> generation is cheap; <em>entitlement</em> is hard.
+          This gate decides when an answer is allowed to exist — and enforces silence when it isn’t.
+          <div class="hr"></div>
+          <div class="small">
+            <strong>This is not an interpretive framework.</strong> It is an output control mechanism:
+            a post-generation constraint layer that blocks premature commitment, premise injection,
+            and unauthorised continuation.
+          </div>
+        </div>
+
+        <div class="cta">
+          <strong>Read the supporting docs</strong>
+          <div class="small" style="margin-top:6px;">
+            If you only read one thing: start with the Executive Summary.
+          </div>
+          <div class="links">
+            <a class="pill" href="./Executive-Summary.md">Executive Summary</a>
+            <a class="pill" href="./Research-Abstract.md">Research Abstract</a>
+            <a class="pill" href="./FOR_REVIEWERS.md">For Reviewers</a>
+            <a class="pill" href="./Aurora-Architecture-Overview.md">Architecture Overview</a>
+            <a class="pill" href="./primitives.md">Primitives</a>
+            <a class="pill" href="./pef.md">PEF</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ONE-SCREEN READER MAP -->
+      <div class="map">
+        <p class="mapTitle"><span class="dot"></span><strong>Reader map:</strong> what this page is doing (in one screen)</p>
+
+        <div class="small" style="margin-top:0;">
+          The gate sits <em>between</em> generation and delivery. It evaluates the model’s candidate response
+          against the provided input only, then returns a verdict that controls what reaches the user.
+        </div>
+
+        <div class="pipe">Pipeline:
+1) Model generates a candidate response
+2) Gate evaluates entitlement (input → output consistency only)
+3) Verdict controls delivery
+
+Outcomes:
+• ADMISSIBLE → deliver the response unchanged
+• AMBIGUOUS_UNRESOLVED → replace with refusal / clarification request
+• INADMISSIBLE_UNSUPPORTED → block (scope extension / premise injection)
+• TRUNCATE_AFTER_ENTITLEMENT → cut output at the entitlement boundary
+
+No re-prompting. No hidden retries. No “helpful” drift.
+Either the system speaks lawfully — or it stays silent.</div>
+
+        <div class="mapGrid">
+          <div class="mapItem">
+            <b>How to read the cases</b> <span class="tag">test witnesses</span>
+            <p>Each case is a minimal prompt that reliably triggers a structural violation in unconstrained LLM output. The gate converts that failure into a controlled system outcome.</p>
+          </div>
+          <div class="mapItem">
+            <b>What to look for</b> <span class="tag">failure signatures</span>
+            <p>Commitment without forcing constraints, policy applied outside scope, or extra narration after a complete answer.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="sectionTitle">The contract this gate enforces</div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Invariants <span class="badge">non-negotiable</span></h2>
+        <ul>
+          <li><strong>No premature commitment:</strong> if multiple interpretations remain admissible, none may be selected.</li>
+          <li><strong>No scope extension:</strong> do not introduce new rules, premises, or “in practice…” unless explicitly licensed.</li>
+          <li><strong>No unauthorised continuation:</strong> once an admissible answer is complete — or refusal/clarification is required — stop.</li>
+        </ul>
+        <div class="hr"></div>
+        <p class="small">
+          These are entitlement rules: what the system is allowed to say, given only what was stated.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Gate outcomes <span class="badge">finite states</span></h2>
+        <pre>{
+  "ADMISSIBLE": "deliver unchanged",
+  "AMBIGUOUS_UNRESOLVED": "refuse / ask for clarification",
+  "INADMISSIBLE_UNSUPPORTED": "block scope creep / premise injection",
+  "TRUNCATE_AFTER_ENTITLEMENT": "stop at entitlement boundary"
+}</pre>
+        <p class="small">
+          Refusal is not a failure mode here. It is a first-class outcome.
+        </p>
+      </section>
+    </div>
+
+    <div class="sectionTitle">Minimal witnesses</div>
+
+    <div class="grid">
+
+      <!-- CASE 1 -->
+      <section class="card">
+        <h2>Case 1 — Illegitimate Commitment <span class="badge">ambiguity collapse</span></h2>
+
+        <p class="small">
+          A deliberately small prompt that reliably forces models to choose a referent even when the context does not force one.
+        </p>
+
+        <h3>Prompt</h3>
+        <pre>Emma’s sister and Lucy’s sister both live overseas.
+Emma told Lucy that her sister was arriving.
+Whose sister is arriving?</pre>
+
+        <h3>Typical failure</h3>
+        <pre>Emma’s sister is arriving.</pre>
+
+        <div class="status warn">
+          <strong>Gate verdict: AMBIGUOUS_UNRESOLVED</strong><br />
+          <span class="small">Multiple interpretations remain admissible; none are forced by context.</span>
+        </div>
+
+        <h3>Gate trace</h3>
+        <pre>{
+  "status": "AMBIGUOUS_UNRESOLVED",
+  "reason": "Multiple interpretations remain admissible",
+  "interpretations": ["Emma's sister", "Lucy's sister"],
+  "forcing_constraint": null,
+  "required_next": "CLARIFY_REFERENT"
+}</pre>
+
+        <details>
+          <summary>Show evidence screenshots (4)</summary>
+          <div class="evidence">
+            <a href="./images/chatgpt_case1.png" target="_blank" rel="noopener">
+              <img src="./images/chatgpt_case1.png" loading="lazy" alt="ChatGPT output for Case 1" />
+              <div class="caption">ChatGPT — Case 1</div>
+            </a>
+            <a href="./images/claude_case1.png" target="_blank" rel="noopener">
+              <img src="./images/claude_case1.png" loading="lazy" alt="Claude output for Case 1" />
+              <div class="caption">Claude — Case 1</div>
+            </a>
+            <a href="./images/gemini_case1.png" target="_blank" rel="noopener">
+              <img src="./images/gemini_case1.png" loading="lazy" alt="Gemini output for Case 1" />
+              <div class="caption">Gemini — Case 1</div>
+            </a>
+            <a href="./images/grok_case1.png" target="_blank" rel="noopener">
+              <img src="./images/grok_case1.png" loading="lazy" alt="Grok output for Case 1" />
+              <div class="caption">Grok — Case 1</div>
+            </a>
+          </div>
+        </details>
+      </section>
+
+      <!-- CASE 2 -->
+      <section class="card">
+        <h2>Case 2 — Illegitimate Scope Extension <span class="badge">premise injection</span></h2>
+
+        <p class="small">
+          A model can give the correct narrow answer — then immediately ruin it by adding unsupported narration.
+          The gate allows the answer and blocks the drift.
+        </p>
+
+        <h3>Prompt</h3>
+        <pre>Policy section 4 applies to contractors operating offsite.
+An employee violated policy section 4.
+Was this a breach?</pre>
+
+        <h3>Admissible conclusion</h3>
+        <pre>No. Section 4 applies to contractors; the actor is an employee.</pre>
+
+        <div class="status ok">
+          <strong>Gate verdict: ADMISSIBLE</strong><br />
+          <span class="small">Conclusion follows strictly from stated scope; no additional premises introduced.</span>
+        </div>
+
+        <h3>What the gate blocks</h3>
+        <pre>However, there is probably another policy section / code of conduct…</pre>
+
+        <div class="status bad">
+          <strong>Gate verdict: INADMISSIBLE_UNSUPPORTED</strong><br />
+          <span class="small">Speculation about other rules is not supported by the provided context.</span>
+        </div>
+
+        <details>
+          <summary>Show evidence screenshots (4)</summary>
+          <div class="evidence">
+            <a href="./images/chatgpt_case2.png" target="_blank" rel="noopener">
+              <img src="./images/chatgpt_case2.png" loading="lazy" alt="ChatGPT output for Case 2" />
+              <div class="caption">ChatGPT — Case 2</div>
+            </a>
+            <a href="./images/claude_case2.png" target="_blank" rel="noopener">
+              <img src="./images/claude_case2.png" loading="lazy" alt="Claude output for Case 2" />
+              <div class="caption">Claude — Case 2</div>
+            </a>
+            <a href="./images/gemini_case2.png" target="_blank" rel="noopener">
+              <img src="./images/gemini_case2.png" loading="lazy" alt="Gemini output for Case 2" />
+              <div class="caption">Gemini — Case 2</div>
+            </a>
+            <a href="./images/grok_case2.png" target="_blank" rel="noopener">
+              <img src="./images/grok_case2.png" loading="lazy" alt="Grok output for Case 2" />
+              <div class="caption">Grok — Case 2</div>
+            </a>
+          </div>
+        </details>
+      </section>
+
+      <!-- CASE 3 -->
+      <section class="card">
+        <h2>Case 3 — Termination Invariant <span class="badge">stop talking</span></h2>
+
+        <p class="small">
+          The failure almost nobody measures: the model gives a correct answer, then keeps generating until it invents a new premise.
+          The gate enforces a hard boundary: <em>stop at entitlement</em>.
+        </p>
+
+        <h3>Rule</h3>
+        <pre>Once an admissible conclusion is reached (or once refusal/clarification is required),
+the system must stop.
+No additional hypotheticals, “in practice…”, or speculative continuations unless requested.</pre>
+
+        <div class="status bad">
+          <strong>Gate verdict: TRUNCATE_AFTER_ENTITLEMENT</strong><br />
+          <span class="small">Stop generation at the boundary of entitlement: after admissible answer, or at refusal/clarification.</span>
+        </div>
+
+        <h3>Gate trace</h3>
+        <pre>{
+  "termination_invariant": "ENFORCE",
+  "rule": "Stop at entitlement boundary",
+  "when": [
+    "primary_conclusion is ADMISSIBLE and answers the question",
+    "status is AMBIGUOUS_UNRESOLVED (refusal/clarification required)",
+    "status is INADMISSIBLE_UNSUPPORTED (block unsupported continuation)"
+  ],
+  "enforcement": "TRUNCATE_OUTPUT"
+}</pre>
+      </section>
+
+      <!-- WHAT THIS IS / ISN'T -->
+      <section class="card">
+        <h2>What this is (and isn’t) <span class="badge">scope</span></h2>
+
+        <h3>This is</h3>
+        <ul>
+          <li>a post-generation <strong>admissibility/refusal layer</strong>,</li>
+          <li>an <strong>output entitlement control</strong> surface for LLM systems,</li>
+          <li>a way to make <strong>silence</strong> and <strong>clarification</strong> first-class outcomes.</li>
+        </ul>
+
+        <h3>This is not</h3>
+        <ul>
+          <li>a new foundation model,</li>
+          <li>a prompt trick dressed as research,</li>
+          <li>an “alignment vibe” essay.</li>
+        </ul>
+
+        <div class="hr"></div>
+        <p class="small">
+          If a system cannot tell when it must stay silent, it cannot be trusted when it speaks.
+          That’s the design requirement this page demonstrates.
+        </p>
+      </section>
+
+    </div>
+
+    <footer>
+      <div class="small">
+        This page is intentionally static: it exists to show the contract and the minimal failure witnesses, not to overwhelm you with tooling.
+      </div>
+    </footer>
+  </div>
+</body>
 </html>
