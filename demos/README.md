@@ -174,6 +174,10 @@ It exists to show that:
 
 This is a **conceptual proof of structure**, not a behavioral system.
 
+- **PEF Reconstruction Demo (stable)** — see `DEMOs/PEF_minimal_demo/`  
+  (Release: *PEF Reconstruction Demo – Stable*)
+
+
 ---
 
 ## Historical Demos
