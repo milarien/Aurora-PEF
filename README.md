@@ -62,6 +62,8 @@ Some components are intentionally minimal or constrained to separate
 Aurora handles reasoning.
 Transformers (optionally) handle expression.
 
+The architecture rests on two foundations: the Persistent Existence Frame (PEF) and explicit compositional primitives. Without these, the failure analyses and demos cannot be interpreted correctly.
+
 ---
 
 ## Scope Note
