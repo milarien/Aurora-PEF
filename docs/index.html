@@ -6,150 +6,154 @@
   <title>Aurora-PEF — Admissibility Gate Demo</title>
   <meta name="description"
         content="A minimal static demo showing why LLM outputs require an admissibility/refusal layer: no premature commitment, no scope extension, and no unauthorised continuation." />
-<link rel="stylesheet" href="style.css">
-
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<div class="wrap">
+  <div class="wrap">
 
-<header>
-  <p class="kicker">Static demo · post-generation governance</p>
+    <header>
+      <p class="kicker">Static demo · post-generation governance</p>
 
-  <h1>Admissibility Gate Demo <span class="badge">output entitlement control</span></h1>
+      <h1>Admissibility Gate Demo <span class="badge">output entitlement control</span></h1>
 
-  <p class="sub">
-    Modern LLMs don’t mainly fail because they don’t know facts.
-    They fail because they <em>don’t know when they’re entitled to speak</em>.
-  </p>
+      <p class="sub">
+        Modern LLMs don’t mainly fail because they don’t know facts.
+        They fail because they <em>don’t know when they’re entitled to speak</em>.
+      </p>
 
-  <div class="heroRow">
-    <div class="callout">
-      <strong>Thesis:</strong> generation is cheap; <em>entitlement</em> is hard.
-      This gate decides when an answer is allowed to exist — and enforces silence when it isn’t.
-      <div class="hr"></div>
-      <div class="small">
-        <strong>This is not an interpretive framework.</strong>
-        It is an output control mechanism.
+      <div class="heroRow">
+        <div class="callout">
+          <strong>Thesis:</strong> generation is cheap; <em>entitlement</em> is hard.
+          This gate decides when an answer is allowed to exist — and enforces silence when it isn’t.
+          <div class="hr"></div>
+          <div class="small">
+            <strong>This is not an interpretive framework.</strong>
+            It is an output control mechanism.
+          </div>
+        </div>
+
+        <div class="cta">
+          <strong>Read the supporting docs</strong>
+          <div class="links">
+            <a class="pill" href="./Executive-Summary.md">Executive Summary</a>
+            <a class="pill" href="./FOR_REVIEWERS.md">For Reviewers</a>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="cta">
-      <strong>Read the supporting docs</strong>
-      <div class="links">
-        <a class="pill" href="./Executive-Summary.md">Executive Summary</a>
-        <a class="pill" href="./FOR_REVIEWERS.md">For Reviewers</a>
-      </div>
-    </div>
-  </div>
+      <div class="map">
+        <p class="small">
+          The gate sits between generation and delivery.
+          <strong>This is a filter that can block, replace, or truncate output at runtime.</strong>
+        </p>
 
-  <div class="map">
-    <p class="small">
-      The gate sits between generation and delivery.
-      <strong>This is a filter that can block, replace, or truncate output at runtime.</strong>
-    </p>
-
-    <div class="pipe">Pipeline:
+        <div class="pipe">Pipeline:
 1) Model generates a candidate response
 2) Gate evaluates entitlement (input → output consistency only)
 3) Verdict acts on output (deliver / replace / block / truncate)
 
 Either the system speaks lawfully — or it stays silent.</div>
-  </div>
-</header>
+      </div>
+    </header>
 
-<div class="grid">
+    <aside class="sidebar">
+      <h3>For engineers who hate theory</h3>
+      <ul>
+        <li>This is a <strong>runtime filter</strong>, not a model.</li>
+        <li>It runs <strong>after generation</strong>, before delivery.</li>
+        <li>It can <strong>block</strong>, <strong>replace</strong>, or <strong>truncate</strong> output.</li>
+        <li>No prompt tricks. No retries. No training.</li>
+        <li>If scope or binding isn’t explicit, output doesn’t ship.</li>
+      </ul>
+      <p class="small"><em>If you can insert middleware, you can use this.</em></p>
+    </aside>
 
-<section class="card">
-  <h2>Invariants <span class="badge">non-negotiable</span></h2>
-  <ul>
-    <li><strong>No premature commitment</strong></li>
-    <li><strong>No scope extension</strong></li>
-    <li><strong>No unauthorised continuation</strong></li>
-  </ul>
-</section>
+    <div class="grid">
 
-<section class="card">
-  <h2>Gate outcomes <span class="badge">finite states</span></h2>
-  <pre>{
+      <section class="card">
+        <h2>Invariants <span class="badge">non-negotiable</span></h2>
+        <ul>
+          <li><strong>No premature commitment</strong></li>
+          <li><strong>No scope extension</strong></li>
+          <li><strong>No unauthorised continuation</strong></li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Gate outcomes <span class="badge">finite states</span></h2>
+        <pre>{
   "ADMISSIBLE": "deliver unchanged",
   "AMBIGUOUS_UNRESOLVED": "refuse / clarify",
   "INADMISSIBLE_UNSUPPORTED": "block",
   "TRUNCATE_AFTER_ENTITLEMENT": "stop output"
 }</pre>
-</section>
+      </section>
 
-<section class="card">
-  <h2>Case 1 — Illegitimate Commitment</h2>
+      <section class="card">
+        <h2>Case 1 — Illegitimate Commitment</h2>
 
-  <pre>Emma’s sister and Lucy’s sister both live overseas.
+        <pre>Emma’s sister and Lucy’s sister both live overseas.
 Emma told Lucy that her sister was arriving.
 Whose sister is arriving?</pre>
 
-  <div class="status warn">
-    <strong>Gate verdict: AMBIGUOUS_UNRESOLVED</strong>
-    <div class="small">Multiple interpretations remain admissible.</div>
+        <div class="status warn">
+          <strong>Gate verdict: AMBIGUOUS_UNRESOLVED</strong>
+          <div class="small">Multiple interpretations remain admissible.</div>
+        </div>
+
+        <p class="small">
+          <strong>Note:</strong> The gate does not re-prompt the model; it changes what is delivered.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Coverage & Guarantees <span class="badge">scope disclosure</span></h2>
+
+        <p class="small">The cases above are minimal witnesses — not the limit of application.</p>
+        <p class="small"><strong>Goal:</strong> fewer false commitments — not more refusals.</p>
+
+        <h3>Coverage includes</h3>
+        <ul>
+          <li>single- and multi-turn interactions</li>
+          <li>preservation of unresolved ambiguity</li>
+          <li>termination after entitlement</li>
+          <li>prevention of narrative drift</li>
+        </ul>
+
+        <h3>Evaluates only</h3>
+        <ul>
+          <li>user-provided input</li>
+          <li>model candidate output</li>
+          <li>explicit scopes, bindings, constraints</li>
+        </ul>
+
+        <p class="small">If a scope or binding is not stated, it is treated as unavailable.</p>
+      </section>
+
+      <section class="card">
+        <h2>What this is (and isn’t)</h2>
+
+        <h3>This is</h3>
+        <ul>
+          <li>an output entitlement control layer</li>
+          <li>a refusal-first governance mechanism</li>
+        </ul>
+
+        <h3>This is not</h3>
+        <ul>
+          <li>a foundation model</li>
+          <li>a prompt trick</li>
+          <li>a confidence wrapper</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <footer>
+      This page is intentionally static. It demonstrates the contract — not the tooling.
+    </footer>
+
   </div>
-
-  <p class="small">
-    <strong>Note:</strong> The gate does not re-prompt the model; it changes what is delivered.
-  </p>
-</section>
-
-<section class="card">
-  <h2>Coverage & Guarantees <span class="badge">scope disclosure</span></h2>
-
-  <p class="small">
-    The cases above are minimal witnesses — not the limit of application.
-  </p>
-
-  <p class="small">
-    <strong>Goal:</strong> fewer false commitments — not more refusals.
-  </p>
-
-  <h3>Coverage includes</h3>
-  <ul>
-    <li>single- and multi-turn interactions</li>
-    <li>preservation of unresolved ambiguity</li>
-    <li>termination after entitlement</li>
-    <li>prevention of narrative drift</li>
-  </ul>
-
-  <h3>Evaluates only</h3>
-  <ul>
-    <li>user-provided input</li>
-    <li>model candidate output</li>
-    <li>explicit scopes, bindings, constraints</li>
-  </ul>
-
-  <p class="small">
-    If a scope or binding is not stated, it is treated as unavailable.
-  </p>
-</section>
-
-<section class="card">
-  <h2>What this is (and isn’t)</h2>
-
-  <h3>This is</h3>
-  <ul>
-    <li>an output entitlement control layer</li>
-    <li>a refusal-first governance mechanism</li>
-  </ul>
-
-  <h3>This is not</h3>
-  <ul>
-    <li>a foundation model</li>
-    <li>a prompt trick</li>
-    <li>a confidence wrapper</li>
-  </ul>
-</section>
-
-</div>
-
-<footer>
-  This page is intentionally static. It demonstrates the contract — not the tooling.
-</footer>
-
-</div>
 </body>
 </html>
