@@ -90,6 +90,41 @@ Either the system speaks lawfully – or it stays silent.</div>
   "TRUNCATE_AFTER_ENTITLEMENT": "stop output"
 }</pre>
         </section>
+<section class="card" id="guided-demo">
+  <h2>Guided demo — STOP → clarify → bind → resolve <span class="badge">behavior only</span></h2>
+
+  <p class="small">
+    This is intentionally constrained: no free text, no retries, no “chat”. Just entitlement gating.
+  </p>
+
+  <h3>Scenario</h3>
+  <pre id="demoPrompt">James has a bird.
+Jenny has a bird.
+The bird is missing.
+
+Where is the bird?</pre>
+
+  <div class="status warn" id="demoStatus" style="display:none;">
+    <strong id="demoVerdict"></strong>
+    <div class="small" id="demoMsg"></div>
+  </div>
+
+  <div class="choices" id="demoChoices" style="display:none; margin-top:10px;">
+    <button class="pill" data-choice="james_bird">James’s bird</button>
+    <button class="pill" data-choice="jenny_bird">Jenny’s bird</button>
+  </div>
+
+  <pre id="demoOutput" style="margin-top:12px; white-space:pre-wrap;"></pre>
+
+  <div style="margin-top:10px;">
+    <button class="pill" id="demoStart">Run demo</button>
+    <button class="pill" id="demoReset" style="display:none;">Reset</button>
+  </div>
+
+  <p class="small" style="margin-top:10px;">
+    Implementation is deployed externally and not included in this repository.
+  </p>
+</section>
 
         <section class="card">
           <h2>Case 1 – Illegitimate Commitment</h2>
