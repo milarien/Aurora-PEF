@@ -1,4 +1,4 @@
-# Failure Taxonomy: Why LLMs Fail the Missing-Key Test
+# Failure Taxonomy: Epistemic Collapse Under Incomplete Information
 
 This document classifies the failure modes observed when transformer-based language models are asked to resolve referential ambiguity under incomplete information, using the *Missing Key* scenario as a minimal witness.
 
