@@ -1,7 +1,16 @@
 # Demos
 
-Note on executability:
-Earlier versions of this repository included runnable demonstration code. These have been intentionally removed. The current repository contains non-operational reference traces designed to illustrate the reasoning contract and its guarantees without distributing a general-purpose executable system.
+# Interactive Clarification Demo (Web)
+
+This demo is hosted as a live behavior-only witness.
+
+- Web demo: https://milarien.github.io/Aurora-PEF/
+- API endpoint (POST-only): https://aurora-clarify.milamba.workers.dev
+
+The public repo intentionally does not ship the interactive CLI source.
+The point of this demo is the reasoning contract: STOP → clarify → commit,
+without exposing internal state, scoring, or trace mechanics.
+
 
 The included trace player allows readers to inspect refusal, clarification, and commitment behavior step-by-step, without relying on executable heuristics.
 
