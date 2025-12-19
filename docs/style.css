@@ -43,6 +43,23 @@ header{
   background:linear-gradient(180deg, rgba(17,24,39,0.92), rgba(15,23,42,0.92));
   border-radius:18px;
 }
+/* Make the sidebar unmissable */
+.sidebar{
+  max-width: 1080px;                 /* stop it looking "tiny" */
+  border-color: rgba(96,165,250,0.35);
+  background: rgba(2, 6, 23, 0.78);
+}
+
+/* Your global UL makes lists muted; override inside sidebar */
+.sidebar ul,
+.sidebar li{
+  color: var(--text);
+}
+
+/* Optional: make the title pop */
+.sidebar h3{
+  color: var(--text);
+}
 
 .kicker{
   font-size:12px;
