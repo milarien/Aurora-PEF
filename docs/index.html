@@ -90,50 +90,50 @@ Either the system speaks lawfully – or it stays silent.</div>
   "TRUNCATE_AFTER_ENTITLEMENT": "stop output"
 }</pre>
         </section>
-<section class="card" id="guided-demo">
-  <h2>Guided demo — STOP → clarify → bind → resolve <span class="badge">behavior only</span></h2>
 
-  <p class="small">
-    This is intentionally constrained: no free text, no retries, no “chat”. Just entitlement gating.
-  </p>
+        <section class="card" id="guided-demo">
+          <h2>Guided demo — STOP → clarify → bind → resolve <span class="badge">behavior only</span></h2>
 
-  <h3>Scenario</h3>
-    <div style="margin:10px 0;">
-    <label class="small" for="demoScenario"><strong>Scenario</strong></label><br />
-    <select id="demoScenario" class="pill" style="margin-top:6px;">
-      <option value="bird_missing_v1">Missing bird (binding)</option>
-      <option value="telescope_v1">Telescope (attachment)</option>
-      <option value="trophy_v1">Trophy (pronoun “it”)</option>
-    </select>
-  </div>
+          <p class="small">
+            This is intentionally constrained: no free text, no retries, no “chat”. Just entitlement gating.
+          </p>
 
-  <pre id="demoPrompt">James has a bird.
+          <h3>Scenario</h3>
+
+          <div style="margin:10px 0;">
+            <label class="small" for="demoScenario"><strong>Scenario</strong></label><br />
+            <select id="demoScenario" class="pill" style="margin-top:6px;">
+              <option value="bird_missing_v1">Missing bird (binding)</option>
+              <option value="telescope_v1">Telescope (attachment)</option>
+              <option value="trophy_v1">Trophy (pronoun “it”)</option>
+            </select>
+          </div>
+
+          <pre id="demoPrompt">James has a bird.
 Jenny has a bird.
 The bird is missing.
 
 Where is the bird?</pre>
 
-  <div class="status warn" id="demoStatus" style="display:none;">
-    <strong id="demoVerdict"></strong>
-    <div class="small" id="demoMsg"></div>
-  </div>
+          <div class="status warn" id="demoStatus" style="display:none;">
+            <strong id="demoVerdict"></strong>
+            <div class="small" id="demoMsg"></div>
+          </div>
 
-  <div class="choices" id="demoChoices" style="display:none; margin-top:10px;">
-    <button class="pill" data-choice="james_bird">James’s bird</button>
-    <button class="pill" data-choice="jenny_bird">Jenny’s bird</button>
-  </div>
+          <!-- IMPORTANT: choices are now generated dynamically by demo.js -->
+          <div class="choices" id="demoChoices" style="display:none; margin-top:10px;"></div>
 
-  <pre id="demoOutput" style="margin-top:12px; white-space:pre-wrap;"></pre>
+          <pre id="demoOutput" style="margin-top:12px; white-space:pre-wrap;"></pre>
 
-  <div style="margin-top:10px;">
-    <button class="pill" id="demoStart">Run demo</button>
-    <button class="pill" id="demoReset" style="display:none;">Reset</button>
-  </div>
+          <div style="margin-top:10px;">
+            <button class="pill" id="demoStart">Run demo</button>
+            <button class="pill" id="demoReset" style="display:none;">Reset</button>
+          </div>
 
-  <p class="small" style="margin-top:10px;">
-    Implementation is deployed externally and not included in this repository.
-  </p>
-</section>
+          <p class="small" style="margin-top:10px;">
+            Implementation is deployed externally and not included in this repository.
+          </p>
+        </section>
 
         <section class="card">
           <h2>Case 1 – Illegitimate Commitment</h2>
@@ -151,62 +151,63 @@ Whose sister is arriving?</pre>
             <strong>Note:</strong> The gate does not re-prompt the model; it changes what is delivered.
           </p>
         </section>
-<section class="card">
-  <h2>Case 2 — Illegitimate Scope Extension <span class="badge">premise injection</span></h2>
 
-  <h3>Prompt</h3>
-  <pre>Policy section 4 applies to contractors operating offsite.
+        <section class="card">
+          <h2>Case 2 — Illegitimate Scope Extension <span class="badge">premise injection</span></h2>
+
+          <h3>Prompt</h3>
+          <pre>Policy section 4 applies to contractors operating offsite.
 An employee violated policy section 4.
 Was this a breach?</pre>
 
-  <h3>Admissible narrow conclusion</h3>
-  <pre>No. Section 4 applies to contractors; the actor is an employee.</pre>
+          <h3>Admissible narrow conclusion</h3>
+          <pre>No. Section 4 applies to contractors; the actor is an employee.</pre>
 
-  <p class="small">
-    Screenshots captured across multiple LLMs showing scope handling and overreach.
-  </p>
+          <p class="small">
+            Screenshots captured across multiple LLMs showing scope handling and overreach.
+          </p>
 
-  <img src="./images/chatgpt_case2.png" alt="ChatGPT output for Case 2" style="max-width:100%; margin:12px 0; border-radius:8px;">
-  <img src="./images/claude_case2.png" alt="Claude output for Case 2" style="max-width:100%; margin:12px 0; border-radius:8px;">
-  <img src="./images/gemini_case2.png" alt="Gemini output for Case 2" style="max-width:100%; margin:12px 0; border-radius:8px;">
-  <img src="./images/grok_case2.png" alt="Grok output for Case 2" style="max-width:100%; margin:12px 0; border-radius:8px;">
+          <img src="./images/chatgpt_case2.png" alt="ChatGPT output for Case 2" style="max-width:100%; margin:12px 0; border-radius:8px;">
+          <img src="./images/claude_case2.png" alt="Claude output for Case 2" style="max-width:100%; margin:12px 0; border-radius:8px;">
+          <img src="./images/gemini_case2.png" alt="Gemini output for Case 2" style="max-width:100%; margin:12px 0; border-radius:8px;">
+          <img src="./images/grok_case2.png" alt="Grok output for Case 2" style="max-width:100%; margin:12px 0; border-radius:8px;">
 
-  <div class="status ok">
-    <strong>Gate verdict: ADMISSIBLE</strong>
-    <div class="small">Conclusion follows strictly from stated scope; no additional premises introduced.</div>
-  </div>
+          <div class="status ok">
+            <strong>Gate verdict: ADMISSIBLE</strong>
+            <div class="small">Conclusion follows strictly from stated scope; no additional premises introduced.</div>
+          </div>
 
-  <h3>What the gate blocks</h3>
-  <pre>However, there is probably another policy section / code of conduct…</pre>
+          <h3>What the gate blocks</h3>
+          <pre>However, there is probably another policy section / code of conduct…</pre>
 
-  <div class="status bad">
-    <strong>Gate verdict: INADMISSIBLE_UNSUPPORTED</strong>
-    <div class="small">Speculation about other rules is not supported by the provided context.</div>
-  </div>
-</section>
+          <div class="status bad">
+            <strong>Gate verdict: INADMISSIBLE_UNSUPPORTED</strong>
+            <div class="small">Speculation about other rules is not supported by the provided context.</div>
+          </div>
+        </section>
 
-<section class="card">
-  <h2>Case 3 — Termination Invariant <span class="badge">control condition</span></h2>
+        <section class="card">
+          <h2>Case 3 — Termination Invariant <span class="badge">control condition</span></h2>
 
-  <h3>What this enforces</h3>
-  <pre>Once an admissible conclusion is reached (or once a refusal is required), the system must stop.
+          <h3>What this enforces</h3>
+          <pre>Once an admissible conclusion is reached (or once a refusal is required), the system must stop.
 No additional claims, hypotheticals, “in practice…”, or policy/speculation may be introduced unless explicitly requested.</pre>
 
-  <p class="small">
-    This failure mode appears in both Case 1 and Case 2:
-  </p>
-  <ul>
-    <li><strong>Case 1:</strong> models commit to one binding, then continue reasoning as if that commitment were licensed.</li>
-    <li><strong>Case 2:</strong> models give a correct narrow answer, then keep talking and inject unsupported premises.</li>
-  </ul>
+          <p class="small">
+            This failure mode appears in both Case 1 and Case 2:
+          </p>
+          <ul>
+            <li><strong>Case 1:</strong> models commit to one binding, then continue reasoning as if that commitment were licensed.</li>
+            <li><strong>Case 2:</strong> models give a correct narrow answer, then keep talking and inject unsupported premises.</li>
+          </ul>
 
-  <div class="status bad">
-    <strong>Gate verdict: TRUNCATE_AFTER_ENTITLEMENT</strong>
-    <div class="small">Stop generation at the boundary of entitlement: after admissible answer, or at refusal/clarification.</div>
-  </div>
+          <div class="status bad">
+            <strong>Gate verdict: TRUNCATE_AFTER_ENTITLEMENT</strong>
+            <div class="small">Stop generation at the boundary of entitlement: after admissible answer, or at refusal/clarification.</div>
+          </div>
 
-  <h3>Gate trace</h3>
-  <pre>{
+          <h3>Gate trace</h3>
+          <pre>{
   "termination_invariant": "ENFORCE",
   "rule": "Stop at entitlement boundary",
   "when": [
@@ -216,11 +217,10 @@ No additional claims, hypotheticals, “in practice…”, or policy/speculation
   ],
   "enforcement": "TRUNCATE_OUTPUT"
 }</pre>
-</section>
+        </section>
 
         <section class="card">
           <h2>Coverage & Guarantees <span class="badge">scope disclosure</span></h2>
-          
 
           <p class="small">The cases above are minimal witnesses – not the limit of application.</p>
           <p class="small"><strong>Goal:</strong> fewer false commitments – not more refusals.</p>
@@ -261,7 +261,6 @@ No additional claims, hypotheticals, “in practice…”, or policy/speculation
         </section>
 
       </div>
-
     </div>
 
     <footer>
@@ -269,6 +268,7 @@ No additional claims, hypotheticals, “in practice…”, or policy/speculation
     </footer>
 
   </div>
+
   <script src="./demo.js"></script>
 </body>
 </html>
