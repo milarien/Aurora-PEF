@@ -54,8 +54,19 @@ Some components are intentionally minimal or constrained in order to separate
    👉 [docs/01_Aurora-Architecture-Overview.md](docs/01_Aurora-Architecture-Overview.md)
 
 4. **Runnable Minimal Demos (supporting)**  
-   Epistemic state and structural witness demos.  
+   Epistemic state and structural witness demonstrations.  
    👉 [demos/](demos/)
+
+---
+
+## Demonstrators and Evidence
+
+This repository includes a set of **minimal, runnable demonstrators** that act as
+*evidentiary witnesses* for output entitlement and epistemic governance.
+
+- See [`demos/`](./demos/) for behavior-level demonstrations.
+- See [`docs/Epistemic_Legitimacy_Demonstrator.md`](./docs/Epistemic_Legitimacy_Demonstrator.md)
+  for a documented, auditable example contrasting licensed vs unlicensed resolution under ambiguity.
 
 ---
 
