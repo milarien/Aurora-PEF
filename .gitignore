@@ -71,6 +71,7 @@ src/demo/archive/results.json
 external/ollama_tests/
 WORKSPACE_SUMMARY.md
 DEPENDENCY_ANALYSIS.md
+CROSSOVER_AND_PATENT_ANALYSIS.md
 *_LOCAL.md
 *_NOTES.md
 *_TEST_SETUP.*

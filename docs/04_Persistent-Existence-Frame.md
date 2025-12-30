@@ -1,6 +1,12 @@
 # Persistent Existence Frame (PEF) — Specification
 
-The **Persistent Existence Frame (PEF)** is Aurora’s non-temporal substrate for meaning.  
+## Simple Explanation
+
+Think of PEF like a **whiteboard that never erases**. In a transformer, each word only exists in relation to nearby words—like a conveyor belt where items disappear. But in PEF, each concept (like "Emma" or "Emma's sister") gets a permanent identity card that persists regardless of where it appears in the text. This allows Aurora to remember who "she" refers to across long conversations, keep multiple interpretations alive simultaneously, and reason without losing track of what things mean.
+
+---
+
+The **Persistent Existence Frame (PEF)** is Aurora's non-temporal substrate for meaning.  
 It provides a **stable identity layer** that exists outside token order, outside surface grammar, and outside the transient structure of language.
 
 PEF is the core mechanism that enables Aurora to:
@@ -111,13 +117,13 @@ This prevents attachment errors.
 
 The PEF is manipulated through dedicated operator primitives (Section D.4 of the operator list):
 
-| Primitive | Function |
-|----------|----------|
-| **ANCHOR** | Creates a stable identity independent of token structure. |
-| **LIFT** | Brings a PEF entity into the active reasoning surface. |
-| **STORE** | Returns a PEF entity to a dormant but persistent state. |
-| **MERGE-ID** | Identifies two PEF nodes as the same conceptual object. |
-| **SPLIT-ID** | Creates multiple possible identities when ambiguity is required. |
+| Primitive | Function | Example |
+|----------|----------|---------|
+| **ANCHOR** | Creates a stable identity independent of token structure. | "Emma" → PEF:Emma (persists across sentences) |
+| **LIFT** | Brings a PEF entity into the active reasoning surface. | PEF:Emma → active in current reasoning step |
+| **STORE** | Returns a PEF entity to a dormant but persistent state. | PEF:Emma → stored but retrievable later |
+| **MERGE-ID** | Identifies two PEF nodes as the same conceptual object. | PEF:"the woman" + PEF:"she" → single identity |
+| **SPLIT-ID** | Creates multiple possible identities when ambiguity is required. | "her sister" → PEF:sister-of-Emma + PEF:sister-of-Lucy |
 
 These operate over conceptual space, not linguistic space.
 

@@ -122,7 +122,7 @@ These are explicit parts of the architecture, not metaphors.
 ## 6. The Interpretability Metric  
 **I = S + E − D**
 
-Aurora evaluates how well a concept integrates into the broader state.
+**Note:** "Interpretability" here is legacy terminology for "Admissibility." It refers to internal structural admissibility—whether configurations are permitted to persist—not human interpretability or system transparency.
 
 - **Similarity (S):**  
   How closely a new interpretation matches the existing structure.
@@ -132,6 +132,26 @@ Aurora evaluates how well a concept integrates into the broader state.
 
 - **Decay (D):**  
   How coherence erodes due to distance, contradiction, or competing interpretations.
+
+**Worked Example:**
+
+Consider the ambiguous sentence: "Emma told Lucy that her sister was arriving."
+
+Aurora evaluates both interpretations:
+
+**Interpretation 1: "her" = Emma's sister**
+- **Similarity (S):** High — Emma is already mentioned as the subject
+- **Evidence (E):** Medium — Emma is the grammatical subject of the sentence
+- **Decay (D):** Low — no contradictions present
+- **Result:** I = High + Medium − Low = **High interpretability**
+
+**Interpretation 2: "her" = Lucy's sister**
+- **Similarity (S):** Medium — Lucy is mentioned but not as subject
+- **Evidence (E):** Medium — Lucy is mentioned in the sentence
+- **Decay (D):** Low — no contradictions present
+- **Result:** I = Medium + Medium − Low = **Medium interpretability**
+
+Both interpretations remain active because both have sufficient interpretability. Aurora only collapses when I falls below a threshold or when constraints force resolution.
 
 When interpretability falls below a threshold, the interpretation **collapses**.  
 Alternate interpretations remain.
