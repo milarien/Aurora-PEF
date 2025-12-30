@@ -283,6 +283,87 @@ def gate_legitimate(stream: List[str]) -> Decision:
 
 
 # -------------------------
+#   CLARIFICATION HANDLING
+# -------------------------
+
+
+def extract_entity_names(text: str, candidate_bindings: List[str]) -> List[str]:
+    """
+    Extract entity names from free-text clarification by matching against candidate bindings.
+    
+    Uses case-insensitive partial matching to find mentions of entities in the text.
+    Returns list of bindings that were mentioned in the text.
+    """
+    text_lower = normalize(text).lower()
+    matched = []
+    
+    for binding in candidate_bindings:
+        # Extract the person's name from binding (e.g., "Emma's sister" -> "Emma")
+        person_name = binding.split("'s")[0].lower()
+        # Check if the person's name appears in the text
+        if person_name in text_lower:
+            matched.append(binding)
+    
+    return matched
+
+
+def apply_clarification(
+    clarification: str,
+    candidate_bindings: List[str],
+    allowed_answers: Optional[List[str]] = None
+) -> Optional[str]:
+    """
+    Apply clarification to resolve ambiguity.
+    
+    Accepts free-text clarification by extracting entity names from the text,
+    without requiring a fixed allowed answer list. Keeps /bind as an optional shortcut.
+    
+    Args:
+        clarification: User's clarification input (free text or /bind command)
+        candidate_bindings: List of possible bindings (e.g., ["Emma's sister", "Lucy's sister"])
+        allowed_answers: Optional list of allowed answers (legacy support, ignored if provided)
+    
+    Returns:
+        Resolved binding string if exactly one match found, None otherwise
+    
+    Examples:
+        >>> apply_clarification("Emma", ["Emma's sister", "Lucy's sister"])
+        "Emma's sister"
+        
+        >>> apply_clarification("/bind Emma's sister", ["Emma's sister", "Lucy's sister"])
+        "Emma's sister"
+        
+        >>> apply_clarification("It's Emma's", ["Emma's sister", "Lucy's sister"])
+        "Emma's sister"
+        
+        >>> apply_clarification("both", ["Emma's sister", "Lucy's sister"])
+        None  # Multiple matches
+    """
+    # Normalize input
+    clarification = normalize(clarification).strip()
+    
+    # Handle /bind shortcut: /bind <entity>
+    if clarification.startswith("/bind"):
+        # Extract entity after /bind
+        entity_text = clarification[5:].strip()  # Remove "/bind"
+        # Try exact match first
+        for binding in candidate_bindings:
+            if entity_text.lower() in binding.lower() or binding.lower() in entity_text.lower():
+                return binding
+        # If no exact match, fall through to entity extraction
+    
+    # Extract entity names from free text
+    matched = extract_entity_names(clarification, candidate_bindings)
+    
+    # Return binding if exactly one match found
+    if len(matched) == 1:
+        return matched[0]
+    
+    # Multiple matches or no matches: return None (requires further clarification)
+    return None
+
+
+# -------------------------
 #   RUN DEMO
 # -------------------------
 
@@ -329,6 +410,34 @@ def run_case(seed: int, regime: str) -> Dict:
             "vanilla_licensed": (supported_count == 1 and van.resolved_to == supported[0]),
         },
     }
+
+
+def test_clarification():
+    """Test the apply_clarification function with various inputs."""
+    candidate_bindings = ["Emma's sister", "Lucy's sister"]
+    
+    test_cases = [
+        ("Emma", "Emma's sister"),
+        ("Lucy", "Lucy's sister"),
+        ("It's Emma's sister", "Emma's sister"),
+        ("I mean Lucy", "Lucy's sister"),
+        ("/bind Emma's sister", "Emma's sister"),
+        ("/bind Lucy", "Lucy's sister"),
+        ("both", None),  # Multiple matches
+        ("neither", None),  # No matches
+        ("", None),  # Empty
+    ]
+    
+    print("\n" + "=" * 72)
+    print("TESTING: apply_clarification (free-text entity extraction)")
+    print("=" * 72 + "\n")
+    
+    for input_text, expected in test_cases:
+        result = apply_clarification(input_text, candidate_bindings)
+        status = "✓" if result == expected else "✗"
+        print(f"{status} Input: {input_text!r:30} -> {result!r:20} (expected: {expected!r})")
+    
+    print()
 
 
 def main():
@@ -382,4 +491,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    
+    if len(sys.argv) > 1 and sys.argv[1] == "--test-clarification":
+        test_clarification()
+    else:
+        main()
