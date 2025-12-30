@@ -78,3 +78,5 @@ CROSSOVER_AND_PATENT_ANALYSIS.md
 local_*.txt
 local_*.md
 test_setup.*
+# Local / generated / vendor
+external/
