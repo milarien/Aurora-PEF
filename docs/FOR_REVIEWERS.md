@@ -12,12 +12,12 @@ This guide is designed to help researchers review the repository efficiently and
 
 Start with:
 
-### **Executive Summary**  
-`docs/Executive-Summary.md`  
+### **Executive Summary**
+`docs/02_Executive-Summary.md`
 Provides a high-level framing, motivation, and the empirical failure pattern observed across LLMs.
 
-### **Research Abstract**  
-`docs/Abstract.md`  
+### **Research Abstract**
+`docs/03_Research-Abstract.md`
 A concise technical description of the architecture and its claims.
 
 Focus on these two questions:
@@ -29,8 +29,8 @@ Focus on these two questions:
 
 ## 2. If you have **20–30 minutes**
 
-Open the **Whitepaper (v1.1)**:  
-`whitepaper/Aurora PEF Final with Appendices.pdf`
+Open the **Whitepaper (v1.1)**:
+`Whitepaper/Aurora PEF Final with Appendices v1.1.pdf`
 
 Suggested reading path:
 
