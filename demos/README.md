@@ -12,7 +12,7 @@ These demos function as **evidentiary witnesses**, not products.
 ## ▶ Run the live guided demo (recommended)
 
 **Live demo (no install):**  
-https://milarien.github.io/Aurora-PEF/
+https://Aurora-Governor.github.io/Aurora-PEF/
 
 The guided demo shows a full **STOP → clarify → bind → resolve** loop enforced by an external gate:
 

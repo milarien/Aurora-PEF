@@ -18,7 +18,7 @@ It is an **evidentiary and architectural record**.
 The canonical execution path for demonstrating output entitlement, refusal, clarification,
 and termination under constraint.
 
-👉 https://milarien.github.io/Aurora-PEF/
+👉 https://Aurora-Governor.github.io/Aurora-PEF/
 
 Source files:
 - [index.html](index.html)

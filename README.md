@@ -59,7 +59,7 @@ Some components are intentionally minimal or constrained in order to separate
 
 1. **Live Admissibility Gate Demo (web)**  
    Canonical execution path demonstrating STOP → clarify → bind → resolve.  
-   👉 https://milarien.github.io/Aurora-PEF/
+   👉 https://Aurora-Governor.github.io/Aurora-PEF/
 
 2. **Failure Taxonomy**  
    Architectural failure classes under incomplete information.  

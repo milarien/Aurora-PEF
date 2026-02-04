@@ -4,7 +4,7 @@
 
 This demo is hosted as a live behavior-only witness.
 
-- Web demo: https://milarien.github.io/Aurora-PEF/
+- Web demo: https://Aurora-Governor.github.io/Aurora-PEF/
 
 The public repo intentionally does not ship the interactive CLI source.
 The point of this demo is the reasoning contract: STOP → clarify → commit,

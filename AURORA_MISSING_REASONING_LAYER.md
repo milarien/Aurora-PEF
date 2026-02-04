@@ -125,7 +125,7 @@ o	Additional filings supporting the integrated architecture
 •	Full architectural specifications for primitives, state, and processing pipeline
 •	11-month window for conversion to complete filings
 Repository (documentation + demonstration code):
-https://github.com/milarien/Aurora-PEF
+https://github.com/Aurora-Governor/Aurora-PEF
 
 ### 6. Invitation for Discussion
 This architecture proposes a concrete, implementable substrate for compositional reasoning beneath language models.

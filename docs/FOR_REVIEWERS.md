@@ -1,4 +1,4 @@
-Live demo: https://milarien.github.io/Aurora-PEF/
+Live demo: https://Aurora-Governor.github.io/Aurora-PEF/
 
 # How to Review Aurora + PEF
 ### A guided path for researchers evaluating the architecture
